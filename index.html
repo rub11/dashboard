@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Financeiro - Organize seu pequeno negócio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #3a86ff;
+            --primary-dark: #2667cc;
+            --secondary: #8338ec;
+            --accent: #ff006e;
+            --success: #38b000;
+            --warning: #ff9e00;
+            --danger: #ef476f;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark);
+            line-height: 1.6;
+            background-color: #f5f7ff;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        section {
+            padding: 80px 0;
+        }
+        
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+        }
+        
+        h2 {
+            font-size: 2.2rem;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        h3 {
+            font-size: 1.8rem;
+        }
+        
+        p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .lead {
+            font-size: 1.3rem;
+            font-weight: 500;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .highlight {
+            color: var(--primary);
+            font-weight: 700;
+        }
+        
+        .accent {
+            color: var(--accent);
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 100px 0 80px;
+            border-radius: 0 0 40px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            top: -150px;
+            right: -100px;
+        }
+        
+        header::after {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            bottom: -100px;
+            left: -50px;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+        
+        .price-badge {
+            display: inline-block;
+            background-color: var(--accent);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 5px 15px rgba(255, 0, 110, 0.3);
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: white;
+            color: var(--primary);
+            padding: 18px 40px;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-top: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+        }
+        
+        .cta-button.secondary {
+            background-color: var(--accent);
+            color: white;
+        }
+        
+        /* Seções */
+        .section-bg {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 60px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 40px;
+        }
+        
+        .icon-list {
+            list-style: none;
+            margin: 2rem 0;
+        }
+        
+        .icon-list li {
+            margin-bottom: 1.2rem;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .icon-list i {
+            color: var(--success);
+            margin-right: 15px;
+            font-size: 1.3rem;
+            margin-top: 3px;
+        }
+        
+        .icon-list.cross i {
+            color: var(--danger);
+        }
+        
+        /* Planos */
+        .plans-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin: 3rem 0;
+        }
+        
+        .plan-card {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 40px 30px;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            border: 2px solid transparent;
+            position: relative;
+        }
+        
+        .plan-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        }
+        
+        .plan-card.popular {
+            border-color: var(--accent);
+            transform: scale(1.05);
+        }
+        
+        .plan-card.popular:hover {
+            transform: scale(1.05) translateY(-10px);
+        }
+        
+        .popular-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--accent);
+            color: white;
+            padding: 8px 25px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            box-shadow: 0 5px 15px rgba(255, 0, 110, 0.3);
+        }
+        
+        .plan-price {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin: 1.5rem 0;
+        }
+        
+        .plan-price small {
+            font-size: 1.2rem;
+            color: var(--gray);
+            font-weight: 500;
+        }
+        
+        .plan-description {
+            color: var(--gray);
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+        
+        /* Comparativo */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 3rem 0;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .comparison-table th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background-color: #f8f9ff;
+        }
+        
+        .comparison-table .feature-name {
+            text-align: left;
+            font-weight: 500;
+        }
+        
+        .check {
+            color: var(--success);
+            font-size: 1.3rem;
+        }
+        
+        .times {
+            color: var(--danger);
+            font-size: 1.3rem;
+        }
+        
+        /* Bônus */
+        .bonus-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin: 3rem 0;
+        }
+        
+        .bonus-card {
+            flex: 1;
+            min-width: 250px;
+            background: linear-gradient(135deg, #f8f9ff 0%, #eef1ff 100%);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            text-align: center;
+            border-left: 5px solid var(--primary);
+        }
+        
+        .bonus-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Garantia */
+        .guarantee {
+            background: linear-gradient(135deg, var(--success) 0%, #2d9c00 100%);
+            color: white;
+            border-radius: var(--border-radius);
+            padding: 60px;
+            text-align: center;
+            margin: 3rem 0;
+        }
+        
+        .guarantee i {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 60px 0 30px;
+            text-align: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin: 2rem 0;
+        }
+        
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            margin-top: 3rem;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsividade */
+        @media (max-width: 992px) {
+            h1 {
+                font-size: 2.3rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            .plan-card.popular {
+                transform: none;
+            }
+            
+            .plan-card.popular:hover {
+                transform: translateY(-10px);
+            }
+            
+            .section-bg {
+                padding: 40px 30px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            section {
+                padding: 60px 0;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .plans-container {
+                flex-direction: column;
+            }
+            
+            .comparison-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .guarantee {
+                padding: 40px 20px;
+            }
+        }
+        
+        /* Animações */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.8s ease forwards;
+        }
+        
+        .delay-1 {
+            animation-delay: 0.2s;
+        }
+        
+        .delay-2 {
+            animation-delay: 0.4s;
+        }
+        
+        /* Contador de vendas */
+        .sales-counter {
+            display: inline-block;
+            background-color: rgba(255, 255, 255, 0.15);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content fade-in">
+                <div class="price-badge">
+                    Apenas R$ 10 para começar
+                </div>
+                <h1>Organize seu pequeno negócio e comece a evoluir com apenas <span class="accent">R$ 10</span></h1>
+                <p class="lead">Controle vendas, estoque, custos e lucros de forma simples, visual e sem complicação.</p>
+                <p><strong>Comece com o essencial e evolua quando quiser.<br>Nada de sistemas caros, nada de planilhas confusas.</strong></p>
+                
+                <a href="#planos" class="cta-button">
+                    <i class="fas fa-rocket"></i> Quero começar agora
+                </a>
+                
+                <div class="sales-counter">
+                    <i class="fas fa-bolt"></i> <strong>124</strong> pequenos negócios já organizados esta semana
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Para quem é -->
+    <section>
+        <div class="container">
+            <h2>🔍 Para quem é isso?</h2>
+            <div class="section-bg fade-in">
+                <div class="plans-container">
+                    <div class="bonus-card">
+                        <div class="bonus-icon">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <h3>Microempreendedores</h3>
+                        <p>Que precisam de clareza financeira sem burocracia.</p>
+                    </div>
+                    
+                    <div class="bonus-card">
+                        <div class="bonus-icon">
+                            <i class="fas fa-id-card"></i>
+                        </div>
+                        <h3>MEIs</h3>
+                        <p>Que querem organização para focar no que realmente importa.</p>
+                    </div>
+                    
+                    <div class="bonus-card">
+                        <div class="bonus-icon">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <h3>Autônomos</h3>
+                        <p>Que precisam separar as finanças pessoais das profissionais.</p>
+                    </div>
+                    
+                    <div class="bonus-card">
+                        <div class="bonus-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Pequenos negócios</h3>
+                        <p>Em crescimento que precisam de uma base sólida.</p>
+                    </div>
+                </div>
+                
+                <p class="text-center lead"><strong>Se você quer <span class="highlight">clareza financeira</span> sem complicação, isso é pra você.</strong></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problema -->
+    <section style="background-color: #fff5f8; padding: 80px 0;">
+        <div class="container">
+            <h2 class="accent">😵 A realidade de quem não se organiza</h2>
+            <div class="section-bg fade-in">
+                <div class="icon-list cross">
+                    <li><i class="fas fa-times-circle"></i> <strong>Vende, mas não sabe quanto sobra</strong> - O dinheiro entra e sai sem controle</li>
+                    <li><i class="fas fa-times-circle"></i> <strong>Trabalha muito e não vê resultado</strong> - Esforço não se traduz em lucro</li>
+                    <li><i class="fas fa-times-circle"></i> <strong>Mistura dinheiro pessoal com o do negócio</strong> - Tudo vira uma confusão só</li>
+                    <li><i class="fas fa-times-circle"></i> <strong>Não sabe se pode investir ou não</strong> - Decisões são tomadas no chute</li>
+                    <li><i class="fas fa-times-circle"></i> <strong>Cresce no improviso</strong> - Sem planejamento, sem futuro</li>
+                </div>
+                <p class="text-center lead"><strong class="accent">Negócio sem organização não escala.</strong></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solução -->
+    <section>
+        <div class="container">
+            <h2>✅ A solução: Dashboard Financeiro</h2>
+            <div class="section-bg fade-in delay-1">
+                <p class="lead">O <span class="highlight">Dashboard Financeiro</span> foi criado exatamente para pequenos negócios que querem sair da bagunça e começar a crescer com clareza.</p>
+                <p>Tudo funciona direto do navegador, com ferramentas pensadas para quem <strong>não entende de tecnologia</strong>.</p>
+                
+                <div style="text-align: center; margin: 3rem 0;">
+                    <div style="display: inline-block; background-color: var(--primary); color: white; padding: 10px 20px; border-radius: var(--border-radius); font-weight: 700;">
+                        <i class="fas fa-check-circle"></i> Simples | <i class="fas fa-eye"></i> Visual | <i class="fas fa-bolt"></i> Funcional
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Como funciona -->
+    <section style="background-color: #f0f7ff;">
+        <div class="container">
+            <h2>⚙️ Como funciona na prática</h2>
+            <div class="plans-container fade-in">
+                <div class="bonus-card">
+                    <div class="bonus-icon">
+                        <i class="fas fa-box"></i>
+                    </div>
+                    <h3>1. Cadastre</h3>
+                    <p>Seus produtos ou serviços uma única vez.</p>
+                </div>
+                
+                <div class="bonus-card">
+                    <div class="bonus-icon">
+                        <i class="fas fa-cash-register"></i>
+                    </div>
+                    <h3>2. Registre</h3>
+                    <p>Vendas, entradas e saídas em segundos.</p>
+                </div>
+                
+                <div class="bonus-card">
+                    <div class="bonus-icon">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <h3>3. Acompanhe</h3>
+                    <p>Custos, estoque e pedidos em tempo real.</p>
+                </div>
+                
+                <div class="bonus-card">
+                    <div class="bonus-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3>4. Planeje</h3>
+                    <p>Metas e tome decisões com segurança.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Planos -->
+    <section id="planos">
+        <div class="container">
+            <h2>🚀 Evolução do seu negócio</h2>
+            <p class="text-center lead" style="max-width: 800px; margin: 0 auto 3rem;">Todo pequeno negócio passa por etapas. Você escolhe como quer começar.</p>
+            
+            <div class="plans-container fade-in">
+                <!-- Plano Essencial -->
+                <div class="plan-card">
+                    <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                        <div style="width: 50px; height: 50px; background-color: var(--success); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                            <i class="fas fa-seedling" style="color: white; font-size: 1.5rem;"></i>
+                        </div>
+                        <h3>ETAPA 1 — ORGANIZAÇÃO</h3>
+                    </div>
+                    
+                    <h4>Dashboard Financeiro Essencial</h4>
+                    
+                    <div class="plan-price">R$ 10</div>
+                    <p class="plan-description"><strong>Pagamento único</strong> · Ideal para sair do caderno e entender o básico do seu dinheiro</p>
+                    
+                    <div class="icon-list">
+                        <li><i class="fas fa-check"></i> Controle de entradas e saídas</li>
+                        <li><i class="fas fa-check"></i> Registro de vendas</li>
+                        <li><i class="fas fa-check"></i> Controle básico de custos</li>
+                        <li><i class="fas fa-check"></i> Visualização simples de lucros</li>
+                        <li><i class="fas fa-check"></i> Gráficos essenciais</li>
+                        <li><i class="fas fa-check"></i> Acesso imediato</li>
+                        <li><i class="fas fa-check"></i> Sistema fácil e direto</li>
+                    </div>
+                    
+                    <a href="#" class="cta-button" style="width: 100%; text-align: center; margin-top: 2rem;">
+                        <i class="fas fa-play-circle"></i> Começar com o Essencial
+                    </a>
+                </div>
+                
+                <!-- Plano Completo -->
+                <div class="plan-card popular">
+                    <div class="popular-badge">🔥 MAIS ESCOLHIDA</div>
+                    
+                    <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                        <div style="width: 50px; height: 50px; background-color: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                            <i class="fas fa-rocket" style="color: white; font-size: 1.5rem;"></i>
+                        </div>
+                        <h3>ETAPA 2 — CRESCIMENTO</h3>
+                    </div>
+                    
+                    <h4>Dashboard Financeiro Completo</h4>
+                    
+                    <div class="plan-price">R$ 27,99</div>
+                    <p class="plan-description"><strong>À vista ou 6x de R$ 5,25</strong> · Ideal para quem quer evoluir mais rápido e tomar decisões melhores</p>
+                    
+                    <p style="margin-bottom: 1.5rem; color: var(--primary); font-weight: 600;"><i class="fas fa-star"></i> Tudo do plano Essencial <strong>+</strong></p>
+                    
+                    <div class="icon-list">
+                        <li><i class="fas fa-check"></i> Calculadora de Gastos Mensais inteligente</li>
+                        <li><i class="fas fa-check"></i> Categorias automáticas de despesas</li>
+                        <li><i class="fas fa-check"></i> Planejamento de metas financeiras</li>
+                        <li><i class="fas fa-check"></i> Gráficos avançados e visão detalhada</li>
+                        <li><i class="fas fa-check"></i> Organização total do negócio</li>
+                        <li><i class="fas fa-check"></i> Ferramentas para crescer com segurança</li>
+                    </div>
+                    
+                    <a href="#" class="cta-button secondary" style="width: 100%; text-align: center; margin-top: 2rem;">
+                        <i class="fas fa-bolt"></i> Quero o plano completo
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparativo -->
+    <section style="background-color: #f8f9ff;">
+        <div class="container">
+            <h2>🧠 Comparativo rápido</h2>
+            <p class="text-center" style="max-width: 800px; margin: 0 auto 2rem;">Veja a diferença entre os planos e escolha o ideal para o seu momento</p>
+            
+            <div class="section-bg fade-in delay-1">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Recurso</th>
+                            <th>Essencial (R$10)</th>
+                            <th>Completo (R$27,99)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="feature-name">Controle de vendas</td>
+                            <td><i class="fas fa-check check"></i></td>
+                            <td><i class="fas fa-check check"></i></td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Entradas e saídas</td>
+                            <td><i class="fas fa-check check"></i></td>
+                            <td><i class="fas fa-check check"></i></td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Custos e lucros</td>
+                            <td><i class="fas fa-check check"></i></td>
+                            <td><i class="fas fa-check check"></i></td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Gráficos básicos</td>
+                            <td><i class="fas fa-check check"></i></td>
+                            <td><i class="fas fa-check check"></i></td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Calculadora de gastos</td>
+                            <td><i class="fas fa-times times"></i></td>
+                            <td><i class="fas fa-check check"></i></td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Metas financeiras</td>
+                            <td><i class="fas fa-times times"></i></td>
+                            <td><i class="fas fa-check check"></i></td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Gráficos avançados</td>
+                            <td><i class="fas fa-times times"></i></td>
+                            <td><i class="fas fa-check check"></i></td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Organização completa</td>
+                            <td><i class="fas fa-times times"></i></td>
+                            <td><i class="fas fa-check check"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div style="background-color: #eef7ff; padding: 25px; border-radius: var(--border-radius); margin-top: 2rem; border-left: 5px solid var(--primary);">
+                    <p style="margin-bottom: 0; font-weight: 600;"><i class="fas fa-lightbulb" style="color: var(--warning);"></i> <strong>Recomendação:</strong> Se você pode investir um pouco mais, o plano Completo entrega muito mais controle por uma diferença pequena de valor.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bônus -->
+    <section>
+        <div class="container">
+            <h2>🎁 Bônus exclusivos (só no Completo)</h2>
+            <p class="text-center" style="max-width: 800px; margin: 0 auto 2rem;">Recursos extras para potencializar ainda mais o seu negócio</p>
+            
+            <div class="bonus-container fade-in">
+                <div class="bonus-card">
+                    <div class="bonus-icon">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <h3>Calculadora de Gastos</h3>
+                    <p>Calcule automaticamente seus custos fixos e variáveis mensais.</p>
+                </div>
+                
+                <div class="bonus-card">
+                    <div class="bonus-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3>Planejamento Financeiro</h3>
+                    <p>Defina metas realistas e acompanhe seu progresso.</p>
+                </div>
+                
+                <div class="bonus-card">
+                    <div class="bonus-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h3>Ferramentas Extras</h3>
+                    <p>Recursos adicionais para fazer seu negócio crescer com segurança.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Garantia -->
+    <section>
+        <div class="container">
+            <div class="guarantee fade-in">
+                <i class="fas fa-shield-alt"></i>
+                <h2>🛡️ Garantia total de 7 dias</h2>
+                <p class="lead" style="max-width: 800px; margin: 0 auto 2rem;">Teste o Dashboard Financeiro por 7 dias. Se não for exatamente o que você precisa para organizar seu negócio, devolvemos 100% do seu investimento.</p>
+                
+                <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 3rem;">
+                    <div style="display: flex; align-items: center;">
+                        <i class="fas fa-lock" style="font-size: 2rem; margin-right: 15px;"></i>
+                        <div>
+                            <h4>Compra segura</h4>
+                            <p>Processado pela Kiwify</p>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center;">
+                        <i class="fas fa-bolt" style="font-size: 2rem; margin-right: 15px;"></i>
+                        <div>
+                            <h4>Acesso imediato</h4>
+                            <p>Comece a usar em segundos</p>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center;">
+                        <i class="fas fa-user-shield" style="font-size: 2rem; margin-right: 15px;"></i>
+                        <div>
+                            <h4>Dados protegidos</h4>
+                            <p>Suas informações são seguras</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Final -->
+    <section style="padding: 60px 0; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: white;">
+        <div class="container">
+            <div class="text-center fade-in">
+                <h2 style="color: white;">Comece hoje a organizar seu negócio</h2>
+                <p class="lead" style="max-width: 800px; margin: 0 auto 2rem; color: rgba(255, 255, 255, 0.9);">Dê o próximo passo quando quiser. Comece pelo básico e evolua naturalmente conforme seu negócio cresce.</p>
+                
+                <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-top: 3rem;">
+                    <a href="#" class="cta-button" style="background-color: white; color: var(--primary);">
+                        <i class="fas fa-play-circle"></i> Começar com R$ 10
+                    </a>
+                    
+                    <a href="#" class="cta-button secondary">
+                        <i class="fas fa-bolt"></i> Ir direto para o completo
+                    </a>
+                </div>
+                
+                <p style="margin-top: 2rem; font-size: 0.9rem; color: rgba(255, 255, 255, 0.7);">
+                    <i class="fas fa-lock"></i> Pagamento 100% seguro processado pela Kiwify
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="text-center">
+                <h3 style="color: white;">Dashboard Financeiro</h3>
+                <p style="max-width: 600px; margin: 0 auto 2rem; color: #aaa;">A ferramenta essencial para pequenos negócios que querem sair da bagunça e começar a crescer com clareza.</p>
+                
+                <div class="footer-links">
+                    <a href="#"><i class="fas fa-envelope"></i> Suporte</a>
+                    <a href="#"><i class="fas fa-question-circle"></i> FAQ</a>
+                    <a href="#"><i class="fas fa-file-contract"></i> Termos de Uso</a>
+                    <a href="#"><i class="fas fa-user-shield"></i> Privacidade</a>
+                </div>
+                
+                <div class="copyright">
+                    <p>© 2023 Dashboard Financeiro. Todos os direitos reservados.</p>
+                    <p>Este produto não garante resultados financeiros. Os resultados dependem da natureza do seu negócio e do seu empenho.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Animação de entrada suave
+        document.addEventListener('DOMContentLoaded', function() {
+            // Adiciona classe de animação aos elementos
+            const fadeElements = document.querySelectorAll('.fade-in');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            fadeElements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                observer.observe(el);
+            });
+            
+            // Simulador de parcelamento
+            const planPrice = document.querySelector('.plan-card.popular .plan-price');
+            const originalPrice = 'R$ 27,99';
+            const installmentPrice = '6x de R$ 5,25';
+            let showingInstallment = false;
+            
+            if (planPrice) {
+                planPrice.addEventListener('click', function() {
+                    if (showingInstallment) {
+                        this.innerHTML = originalPrice;
+                        this.nextElementSibling.innerHTML = '<strong>À vista</strong> · Ideal para quem quer evoluir mais rápido e tomar decisões melhores';
+                    } else {
+                        this.innerHTML = installmentPrice;
+                        this.nextElementSibling.innerHTML = '<strong>No cartão</strong> · Ideal para quem quer evoluir mais rápido e tomar decisões melhores';
+                    }
+                    showingInstallment = !showingInstallment;
+                });
+            }
+            
+            // Contador de vendas animado
+            const salesCounter = document.querySelector('.sales-counter strong');
+            if (salesCounter) {
+                let count = 124;
+                setInterval(() => {
+                    count += Math.floor(Math.random() * 3) + 1;
+                    salesCounter.textContent = count;
+                }, 10000); // A cada 10 segundos
+            }
+            
+            // Smooth scroll para links internos
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Simulação de clicks nos CTAs (substituir pelos links reais da Kiwify)
+            document.querySelectorAll('.cta-button').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    if (this.getAttribute('href') === '#') {
+                        e.preventDefault();
+                        
+                        // Aqui você colocaria os links reais da Kiwify
+                        const isEssencial = this.textContent.includes('R$ 10') || this.textContent.includes('Essencial');
+                        const kiwiLink = isEssencial 
+                            ? 'https://pay.kiwify.com.br/SEU-LINK-PLANO-ESSENCIAL' 
+                            : 'https://pay.kiwify.com.br/SEU-LINK-PLANO-COMPLETO';
+                        
+                        // Em produção, descomente a linha abaixo e remova o alert
+                        // window.location.href = kiwiLink;
+                        
+                        // Para demonstração, mostra um alerta
+                        alert(`Em uma implementação real, você seria redirecionado para: ${kiwiLink}\n\nSubstitua pelos links reais da Kiwify.`);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
